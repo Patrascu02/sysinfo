@@ -30,6 +30,9 @@ def index():
     ret += f"[<a href={url_for('info_retea_adrese')}>Info retea: adrese</a>] <br>"
 
     ret += f"[<a href={url_for('info_spatiu_liber')}>Info spatiu liber pe disc</a>] <br>"
+    ret += f"[<a href={url_for('info_uptime')}>Timp de funcționare sistem (uptime)</a>] <br>"
+
+    
     
     ret += "<pre>"
     ret += "Informatii despre sistemul de operare pe care ruleaza aplicatia:\n"
@@ -120,6 +123,16 @@ def info_spatiu_liber():
     else:
         for item in retr:
             ret += str(item) + "\n"
+    ret += "</pre>"
+    return ret
+
+
+@app.route("/uptime", methods=['GET'])
+def info_uptime():
+    ret = ""
+    ret += f"<a href={url_for('index')}>acasa</a>"
+    ret += "<pre>"
+    ret += network.timp_pornire_sys()
     ret += "</pre>"
     return ret
 
