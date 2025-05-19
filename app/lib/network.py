@@ -134,6 +134,41 @@ def gaseste_adrese():
     #print("DBG:", out_lst)
     return out_lst
 
+
+
+def gaseste_spatiu_liber():
+    retr = []
+
+    out_bin = subprocess.run(['df', '-h'], capture_output=True).stdout
+    out_asc = out_bin.decode('utf-8')
+
+    out_lst = out_asc.strip().split("\n")
+
+    if len(out_lst) < 2:
+        return ["Nu s-au putut extrage date"]
+
+    for i in range(1, len(out_lst)):
+        lst_rand = out_lst[i].split()
+        if len(lst_rand) >= 6:
+            retr.append({
+                "Filesystem": lst_rand[0],
+                "Size": lst_rand[1],
+                "Used": lst_rand[2],
+                "Avail": lst_rand[3],
+                "Use%": lst_rand[4],
+                "Mounted_on": lst_rand[5]
+            })
+        else:
+            print("WARNING: rand incomplet:", i, lst_rand)
+
+    if not retr:
+        return ["Nu s-au gasit date despre spatiul liber."]
+    
+    return retr
+
+
+
+
 '''
 Functie genereaza_tabela_ruteL
 
