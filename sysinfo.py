@@ -29,6 +29,8 @@ def index():
     ret += f"[<a href={url_for('info_retea_rute_full')}>Info retea: rute (full)</a>] "
     ret += f"[<a href={url_for('info_retea_adrese')}>Info retea: adrese</a>] <br>"
 
+    ret += f"[<a href={url_for('info_spatiu_liber')}>Info spatiu liber pe disc</a>] <br>"
+    
     ret += "<pre>"
     ret += "Informatii despre sistemul de operare pe care ruleaza aplicatia:\n"
     ret += "\nVersiune UBUNTU:\n"
@@ -103,6 +105,21 @@ def info_retea_adrese():
     ret += f"<a href={url_for('index')}>acasa</a>"
     ret += "<pre>"
     ret += str(dict_adrese)
+    ret += "</pre>"
+    return ret
+
+
+@app.route("/spatiu_liber", methods=['GET'])
+def info_spatiu_liber():
+    retr = network.gaseste_spatiu_liber()
+    
+    ret = f"<a href={url_for('index')}>acasa</a><br>"
+    ret += "<pre>"
+    if not retr:
+        ret += "Nu s-au gasit date despre spatiul liber."
+    else:
+        for item in retr:
+            ret += str(item) + "\n"
     ret += "</pre>"
     return ret
 
