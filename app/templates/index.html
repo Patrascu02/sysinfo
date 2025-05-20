@@ -15,30 +15,10 @@
 {% block page_content %}
 <h1>{{APPNAME}}</h1>
 
-{% if info_de_afisat and info_de_afisat[0] is mapping %}
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            {% for key in info_de_afisat[0].keys() %}
-                <th>{{ key }}</th>
-            {% endfor %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for row in info_de_afisat %}
-        <tr>
-            {% for value in row.values() %}
-                <td>{{ value }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-{% else %}
-    {% for el in info_de_afisat %}
-        <pre>{{ el }}</pre><br>
-    {% endfor %}
-{% endif %}
+{% for el in info_de_afisat %}
+    <pre>{{el}}</pre><br>
+{% endfor %}
+
 
 
 {% for el in grafice %} 
