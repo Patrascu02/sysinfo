@@ -52,6 +52,22 @@ def info_retea_adrese():
     info_de_afisat.append(adrese := str(network.gaseste_adrese()))
     return render_template('index.html', info_de_afisat = info_de_afisat)
 
+
+@main.route("/spatiu_liber", methods=['GET'])
+def spatiu_liber():
+    info_de_afisat = []
+    spatiu = network.gaseste_spatiu_liber()
+    info_de_afisat.append(spatiu)
+    return render_template('index.html', info_de_afisat=info_de_afisat)
+
+@main.route("/uptime", methods=['GET'])
+def uptime_info():
+    info_de_afisat = []
+    uptime = network.timp_pornire_sys()
+    info_de_afisat.append(uptime)
+    return render_template('index.html', info_de_afisat=info_de_afisat)
+
+
 @main.route("/grafic_x_patrat", methods=['GET'])
 def grafic_x_patrat():
     info_de_afisat = []
