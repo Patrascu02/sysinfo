@@ -61,7 +61,7 @@ def spatiu_liber():
     return render_template('index.html', info_de_afisat=info_de_afisat)
 
 @main.route("/uptime", methods=['GET'])
-def uptime_info():
+def uptime():
     info_de_afisat = []
     uptime = network.timp_pornire_sys()
     info_de_afisat.append(uptime)
