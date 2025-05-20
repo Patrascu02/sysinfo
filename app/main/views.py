@@ -55,10 +55,9 @@ def info_retea_adrese():
 
 @main.route("/spatiu_liber", methods=['GET'])
 def spatiu_liber():
-    info_de_afisat = []
-    spatiu = network.gaseste_spatiu_liber()
-    info_de_afisat.append(spatiu)
+    info_de_afisat = network.gaseste_spatiu_liber()
     return render_template('index.html', info_de_afisat=info_de_afisat)
+
 
 @main.route("/uptime", methods=['GET'])
 def uptime():
