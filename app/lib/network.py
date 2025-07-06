@@ -172,22 +172,22 @@ import subprocess
 def timp_pornire_sys():
     rezultat = subprocess.run(['uptime'], capture_output=True, text=True).stdout.strip()
     try:
-       
         parts = rezultat.split(" up ")
         ora_curenta = parts[0].strip()
 
         rest = parts[1]
-        uptime_part, rest = rest.split(",", 1)
-        
+        uptime_part_1, uptime_part_2, rest = rest.split(",", 2)
+        uptime_part = f"{uptime_part_1.strip()}, {uptime_part_2.strip()}"
+
         rest_parts = rest.strip().split(",")
         nr_utilizatori = rest_parts[0].strip()
-        
+
         load_avg_str = rest.split("load average:")[-1].strip()
         load_1, load_5, load_15 = [x.strip() for x in load_avg_str.split(",")]
 
         return (
             f"Ora curenta: {ora_curenta}\n"
-            f"Timp de functionare: {uptime_part.strip()}\n"
+            f"Timp de functionare: {uptime_part}\n"
             f"Numar utilizatori conectati: {nr_utilizatori}\n"
             f"Incarcare medie (1 min): {load_1}\n"
             f"Incarcare medie (5 min): {load_5}\n"
@@ -196,6 +196,7 @@ def timp_pornire_sys():
 
     except Exception as e:
         return f"Eroare la parsare uptime: {str(e)}\nRezultat brut:\n{rezultat}"
+
 
 
 
