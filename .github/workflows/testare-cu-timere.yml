@@ -29,29 +29,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest pylint
 
-    - name: Rulează pytest cu timere
-      run: |
-        echo "import time
-durations = {}
+    - name: Rulează pytest cu timere din conftest.py
+      run: pytest -v -s app/tests
 
-def pytest_runtest_protocol(item, nextitem):
-    start = time.time()
-    yield
-    duration = time.time() - start
-    durations[item.name] = duration
+    - name: Rulează pylint cu timere din script
+      run: python run_lint.py
 
-def pytest_sessionfinish(session, exitstatus):
-    print('\n==  Durata fiecarui test ==')
-    for test_name, duration in durations.items():
-        print(f'{test_name}: {duration:.4f} secunde')" > conftest.py
-        pytest -v -s
-
-    - name: Rulează pylint pe app/lib/
-      run: |
-        import subprocess, time
-        start = time.time()
-        result = subprocess.run(['pylint', 'app/lib'], capture_output=True, text=True)
-        print(result.stdout)
-        print(f'\n== ️ Pylint a durat {time.time() - start:.2f} secunde ==')
-
-      shell: python
