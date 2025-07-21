@@ -27,11 +27,11 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pytest pylint
+        pip install -r quickrequirements.txt
 
-    - name: Rulează pytest cu timere din conftest.py
+    - name: Ruleaza pytest cu timere din conftest.py
       run: pytest -v -s app/tests
 
-    - name: Rulează pylint cu timere din script
+    - name: Ruleaza pylint cu timere din script
       run: python run_lint.py
 
