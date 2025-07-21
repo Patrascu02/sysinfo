@@ -1,0 +1,57 @@
+name: Testare cu timere
+
+on:
+  push:
+    branches:
+      - testare-cu-timere
+  pull_request:
+    branches:
+      - testare-cu-timere
+
+jobs:
+  testare:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pylint
+
+    - name: Rulează pytest cu timere
+      run: |
+        echo "import time
+durations = {}
+
+def pytest_runtest_protocol(item, nextitem):
+    start = time.time()
+    yield
+    duration = time.time() - start
+    durations[item.name] = duration
+
+def pytest_sessionfinish(session, exitstatus):
+    print('\n== ⏱️ Durata fiecarui test ==')
+    for test_name, duration in durations.items():
+        print(f'{test_name}: {duration:.4f} secunde')" > conftest.py
+        pytest -v -s
+
+    - name: Rulează pylint pe app/lib/
+      run: |
+        import subprocess, time
+        start = time.time()
+        result = subprocess.run(['pylint', 'app/lib'], capture_output=True, text=True)
+        print(result.stdout)
+        print(f'\n== ⏱️ Pylint a durat {time.time() - start:.2f} secunde ==')
+
+      shell: python
